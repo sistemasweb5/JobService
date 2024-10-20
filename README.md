@@ -1,5 +1,5 @@
 # Job Service
-# Team Habibi members
+# Team Habibi
 - Alex Paca Meneses
 - Luiggy Mamani Condori
 - Axel Ayala Siles
