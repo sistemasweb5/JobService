@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: jobservice_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: jobservice_db
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      TZ: "UTC-4"
+    ports:
+      - 5432:5432 
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: programacion_6_pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+      PGADMIN_LISTEN_PORT: 4050
+    ports:
+      - 4050:4050
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+
+volumes:
+  pgadmin-data:
+  postgres-data:
