@@ -1,0 +1,19 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Recipe {
+  id: Int!
+  title: String!
+  description: String!
+}
+
+type Query {
+  getRecipes: [Recipe!]!
+}
+
+type Mutation {
+  addRecipe(title: String!, description: String!): Recipe!
+  updateRecipe(id: Float!, title: String!, description: String!): Recipe
+  deleteRecipe(id: Float!): Boolean!
+}
