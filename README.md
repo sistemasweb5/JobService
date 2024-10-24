@@ -76,3 +76,18 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+## How to run docker compose in different environments?
+
+### Run this command for _dev environment:_
+
+```bash
+docker compose -f docker-compose.dev.yml up -d
+```
+
+-   If you want to manage the database from UI, go to [http://localhost:4050](http://localhost:4050)
+
+### Run this command for _production environment:_
+
+```bash
+docker compose up -d
+```
