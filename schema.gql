@@ -3,6 +3,7 @@
 # ------------------------------------------------------
 
 type jobModel {
+  id: String!
   user_client_id: String!
   user_worker_id: String
   job_type: String!
@@ -20,7 +21,7 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 type Query {
-  default: [Float!]!
+  default: [jobModel!]!
 }
 
 type Mutation {
@@ -33,7 +34,6 @@ input CreateJobInput {
   job_type: String!
   status: String!
   description: String!
-  created_at: DateTime!
   price: Float!
   latitude: Float!
   longitude: Float!

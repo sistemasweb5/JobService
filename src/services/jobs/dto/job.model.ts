@@ -4,6 +4,9 @@ import { Field, Float, ObjectType } from '@nestjs/graphql';
 export class jobModel {
 
   @Field()
+  id: string;
+
+  @Field()
   user_client_id: string;
 
   @Field({ nullable: true })

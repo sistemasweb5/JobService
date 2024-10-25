@@ -2,6 +2,7 @@ import { Field, Float, InputType } from '@nestjs/graphql';
 
 @InputType()
 export class CreateJobInput {
+
   @Field()
   user_client_id: string;
 
@@ -16,9 +17,6 @@ export class CreateJobInput {
 
   @Field()
   description: string;
-
-  @Field()
-  created_at: Date;
 
   @Field(() => Float)
   price: number;
