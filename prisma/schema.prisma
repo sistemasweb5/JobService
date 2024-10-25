@@ -1,10 +1,12 @@
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  extensions = [postgis]
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
@@ -17,7 +19,7 @@ model jobs {
   status         String                    @db.VarChar(20)
   description    String?
   price          Decimal?                  @db.Decimal(10, 2)
-  location       Unsupported("geography")?
+  location       Unsupported("geography(Point, 4326)")?
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.

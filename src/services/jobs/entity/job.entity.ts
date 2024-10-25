@@ -1,10 +1,12 @@
+import { Field, Float, InputType } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { jobs } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime/library";
 
+@InputType()
 export class JobEntity implements jobs {
 
-    @ApiProperty()
+    @ApiProperty({required: false, nullable: true})
     id: string;
 
     @ApiProperty()
@@ -18,15 +20,19 @@ export class JobEntity implements jobs {
 
     @ApiProperty()
     job_type: string;
-
+   
     @ApiProperty()
-    status: string;
+    status: string;  
 
     @ApiProperty()
     description: string;
 
     @ApiProperty()
     price: Decimal;
+    
+    @ApiProperty()
+    latitude: number;
 
+    @ApiProperty()
+    longitude: number;
 }
-
