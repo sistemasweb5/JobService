@@ -1,26 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { jobModel } from './Dto/job.model';
-import { CreateJobInput } from './Dto/CreateJob.input';
+import { jobModel } from './dto/job.model';
+import { CreateJobInput } from './dto/CreateJob.input';
 import { JobEntity } from './entity/job.entity';
 import { Prisma } from '@prisma/client';
-import { MyPoint } from './entity/geography.model';
+import { MyPoint } from './entity/geography.entity';
 
 @Injectable()
 export class JobService {
   constructor(private prisma: PrismaService) {}
 
-  async createJob(dataInput: JobEntity): Promise<{}> {
+  async createJob(dataInput: CreateJobInput): Promise<number> {
 
-    const poi: MyPoint = {
-      latitude: dataInput.latitude,
-      longitude: dataInput.longitude,
-    }
-    const point = `POINT(${poi.longitude} ${poi.latitude})`
-    console.log(point);
-    
-    const job = await this.prisma.$queryRaw`
-    INSERT INTO "jobs" (user_client_id,
+    const point = this.createPoint(dataInput.latitude, dataInput.longitude);
+    const job = await this.prisma.$executeRaw(
+    Prisma.sql`INSERT INTO "jobs" (user_client_id,
       user_worker_id,
       created_at,
       job_type,
@@ -37,8 +31,18 @@ export class JobService {
         ${dataInput.description},
         ${dataInput.price},
         ST_GeomFromText(${point}, 4326)
-    ) RETURNING *`;
+    )`);
     
     return job;
+  }
+
+  private createPoint(latitude: number, longitude: number): String {
+    const poi: MyPoint = {
+      latitude: latitude,
+      longitude: longitude,
+    }
+
+    const point = `POINT(${poi.longitude} ${poi.latitude})`
+    return point;
   }
 }
