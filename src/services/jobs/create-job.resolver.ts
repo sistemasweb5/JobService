@@ -10,12 +10,12 @@ import { CreateJobInput } from './dto/CreateJob.input';
 export class JobResolver {
   constructor(private readonly jobService: JobService) {}
 
-  @Query(jobs => [jobModel])
-  default(): Promise<jobModel[]> {
-    return ;
+  @Query(() => [jobModel])
+  default(): jobModel[] {
+    return [new jobModel()];
   }
 
-  @Mutation(() => jobModel)
+  @Mutation(jobs => jobModel)
   async createJob(
     @Args('Job') job: CreateJobInput
   ) {

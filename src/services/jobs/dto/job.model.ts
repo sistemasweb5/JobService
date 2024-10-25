@@ -1,8 +1,8 @@
-import { Field, Float, InputType } from '@nestjs/graphql';
+import { Field, Float, ObjectType } from '@nestjs/graphql';
 
-@InputType()
+@ObjectType()
 export class jobModel {
-  
+
   @Field()
   user_client_id: string;
 
