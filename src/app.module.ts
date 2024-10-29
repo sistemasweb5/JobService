@@ -15,6 +15,11 @@ import { JobModule } from './job.module';
       sortSchema: true,
       playground: true,
       introspection: true,
+      formatError: (error) => {
+        return {
+          message: error.message,
+        };
+      },
     }),
     JobModule
   ],
