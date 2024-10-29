@@ -31,6 +31,43 @@ type Job {
   userWorkerId: ID
 }
 
+type Category {
+  id: String!
+  rol: String!
+  clients: [Client!]!
+}
+
+type WorkSchedule {
+  id: String!
+  startTime: String!
+  endTime: String!
+  clients: Client!
+}
+
+type Specialty {
+  id: String!
+  name: String!
+  client: Client!
+}
+
+type Client {
+  id: String!
+  name: String!
+  email: String!
+  categoryid: Category!
+  workSchedule: WorkSchedule!
+  specialty: Specialty!
+  category: Category!
+  workschedule: WorkSchedule!
+  speciality: Specialty!
+}
+
+type Query {
+  default: [jobModel!]!
+  allClients: [Client!]!
+  userById(id: String!): Client!
+}
+
 type Mutation {
   createJob(Job: CreateJobInput!): Job!
 }
