@@ -5,12 +5,14 @@ import { CreateJobUseCase } from 'src/application/use-cases/create-job.use-case'
 import { Job } from 'src/domain/entities/job.entity';
 import { CreateJobInput } from '../inputs/create-job.input';
 import { JobModel } from '../models/job.model';
+import { UpdateJobUseCase } from 'src/application/use-cases/update-job.use-case';
 
 @Resolver()
 @ApiTags('jobs')
 export class JobResolver {
   constructor(
     private readonly createJobUseCase: CreateJobUseCase,
+    private readonly UpdateJobUseCase: UpdateJobUseCase,
   ) {}
 
   @Query(() => JobModel, { nullable: true })
@@ -27,6 +29,16 @@ export class JobResolver {
   async createJob(@Args('Job') input: CreateJobInput): Promise<JobModel> {
     const dto = this.mapInputToDto(input);
     const job = await this.createJobUseCase.execute(dto);
+    return this.mapToModel(job);
+  }
+
+  @Mutation(() => JobModel)
+  async updateJob(
+    @Args('id') id: string,
+    @Args('Job') input: CreateJobInput
+  ): Promise<JobModel> {
+    const dto = this.mapInputToDto(input);
+    const job = await this.UpdateJobUseCase.execute(id, dto);
     return this.mapToModel(job);
   }
 
