@@ -1,5 +1,4 @@
 import {
-  IsDecimal,
   IsEnum,
   IsNotEmpty,
   IsNumber,

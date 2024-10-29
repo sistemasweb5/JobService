@@ -1,5 +1,5 @@
 import { InputType, Field, Float } from "@nestjs/graphql";
-import { IsDecimal, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID, Max, MaxLength, Min } from "class-validator";
+import { IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID, Max, MaxLength, Min } from "class-validator";
 import { JobStatus } from "src/application/dtos/create-job.dto";
 
 @InputType()

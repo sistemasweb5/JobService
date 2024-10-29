@@ -4,6 +4,7 @@ import { PrismaModule } from "src/infrastructure/persistence/prisma/prisma.modul
 import { PrismaJobRepository } from "src/infrastructure/persistence/repositories/prisma-job.repository";
 import { JobResolver } from "src/presentation/graphql/resolvers/job.resolver";
 import { UpdateJobUseCase } from "./application/use-cases/update-job.use-case";
+import { DeleteJobUseCase } from "./application/use-cases/delete-job.use-calse";
 
 @Module({
   imports: [PrismaModule],
@@ -11,6 +12,7 @@ import { UpdateJobUseCase } from "./application/use-cases/update-job.use-case";
     JobResolver,
     CreateJobUseCase,
     UpdateJobUseCase,
+    DeleteJobUseCase,
     {
       provide: 'IJobRepository',
       useClass: PrismaJobRepository,
