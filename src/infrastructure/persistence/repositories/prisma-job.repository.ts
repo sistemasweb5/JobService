@@ -4,6 +4,7 @@ import { IJobRepository } from "src/domain/repositories/job.repository.interface
 import { PrismaService } from "../prisma/prisma.service";
 import { Prisma } from "@prisma/client";
 import { Location } from "src/domain/value-objects/location.value-object";
+import { UUID } from "crypto";
 
 @Injectable()
 export class PrismaJobRepository implements IJobRepository {
@@ -73,6 +74,44 @@ export class PrismaJobRepository implements IJobRepository {
     }
 
     return this.mapToEntity(result[0]);
+  }
+
+  async update(idActualJob: string, updateJob: Job): Promise<Job> 
+  {
+    const actualJob = await this.findById(idActualJob);
+    if (actualJob !== null ) {
+      const point = updateJob.location.toPoint();
+      const result = await this.prisma.$queryRaw<any[]>(Prisma.sql`
+        UPDATE jobs
+        SET
+          user_client_id = CAST(${updateJob.userClientId} AS uuid),
+          user_worker_id = CAST(${updateJob.userWorkerId} AS uuid),
+          created_at = ${updateJob.createdAt},
+          job_type = ${updateJob.jobType},
+          status = ${updateJob.status},
+          description = ${updateJob.description},
+          price = ${updateJob.price},
+          location = ST_GeomFromText(${point}, 4326)
+        WHERE id = CAST(${idActualJob} AS uuid)
+        RETURNING 
+          id,
+          user_client_id,
+          user_worker_id,
+          job_type,
+          status,
+          description,
+          created_at,
+          price,
+          ST_X(location::geometry) as longitude,
+          ST_Y(location::geometry) as latitude
+      `);
+
+      if (!result || result.length === 0) {
+        throw new Error("Error updating job entry");
+      }
+      return this.mapToEntity(result[0]);
+    }
+    return this.mapToEntity({});
   }
 
   async delete(id: string): Promise<void> {
