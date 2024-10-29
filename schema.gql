@@ -33,6 +33,7 @@ type Job {
 
 type Mutation {
   createJob(Job: CreateJobInput!): Job!
+  deleteJob(id: String!): Job
 }
 
 type Query {

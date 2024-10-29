@@ -5,22 +5,30 @@ import { CreateJobUseCase } from 'src/application/use-cases/create-job.use-case'
 import { Job } from 'src/domain/entities/job.entity';
 import { CreateJobInput } from '../inputs/create-job.input';
 import { JobModel } from '../models/job.model';
+import { DeleteJobUseCase } from 'src/application/use-cases/delete-job.use-calse';
 
 @Resolver()
 @ApiTags('jobs')
 export class JobResolver {
   constructor(
     private readonly createJobUseCase: CreateJobUseCase,
+    private readonly deleteJobUseCase: DeleteJobUseCase,
   ) {}
 
   @Query(() => JobModel, { nullable: true })
   async getJob(@Args('id') id: string): Promise<JobModel | null> {
-    return null; 
+    return null;
   }
 
   @Query(() => [JobModel])
   async getJobs(): Promise<JobModel[]> {
-    return []; 
+    return [];
+  }
+
+  @Mutation(() => JobModel, { nullable: true })
+  async deleteJob(@Args('id') id: string): Promise<JobModel | null> {
+    await this.deleteJobUseCase.execute(id);
+    return null;
   }
 
   @Mutation(() => JobModel)

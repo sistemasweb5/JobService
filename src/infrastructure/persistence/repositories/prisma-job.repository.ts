@@ -75,6 +75,14 @@ export class PrismaJobRepository implements IJobRepository {
     return this.mapToEntity(result[0]);
   }
 
+  async delete(id: string): Promise<void> {
+    await this.prisma.jobs.delete({
+      where: {
+        id: id
+      }
+    });
+  }
+
   private mapToEntity(raw: any): Job {
     return new Job({
       id: raw.id,
