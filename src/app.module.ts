@@ -6,6 +6,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { JobModule } from './job.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { serviceModule } from './services/services.module';
 
 @Module({
   imports: [
@@ -32,7 +33,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       database: 'helios',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
-    }),
+    }), 
+    serviceModule
   ],
   controllers: [AppController],
   providers: [AppService],
