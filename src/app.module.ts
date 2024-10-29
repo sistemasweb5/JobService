@@ -5,6 +5,8 @@ import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { JobModule } from './job.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { serviceModule } from './services/services.module';
 
 @Module({
   imports: [
@@ -21,9 +23,21 @@ import { JobModule } from './job.module';
         };
       },
     }),
-    JobModule
+    JobModule,
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: 'localhost',
+      port: 5100,
+      username: 'phaeton',
+      password: 'ecliptic',
+      database: 'helios',
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      synchronize: true,
+    }), 
+    serviceModule
   ],
   controllers: [AppController],
   providers: [AppService],
+  exports: [],
 })
 export class AppModule {}

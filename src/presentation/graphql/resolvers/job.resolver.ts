@@ -1,26 +1,50 @@
-import { Mutation, Args, Resolver, Query } from '@nestjs/graphql';
+import { Mutation, Args, Resolver, Query, ResolveField, Parent } from '@nestjs/graphql';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateJobDto } from 'src/application/dtos/create-job.dto';
 import { CreateJobUseCase } from 'src/application/use-cases/create-job.use-case';
-import { Job } from 'src/domain/entities/job.entity';
 import { CreateJobInput } from '../inputs/create-job.input';
 import { JobModel } from '../models/job.model';
+import { UserService } from 'src/services/user-management/service/user.service';
+import { NotFoundException } from '@nestjs/common';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Job } from 'src/domain/entities/job.entity';
+import { Client } from 'src/services/user-management/entity/client.entity';
 
-@Resolver()
+@Resolver((of) => JobModel)
 @ApiTags('jobs')
 export class JobResolver {
   constructor(
     private readonly createJobUseCase: CreateJobUseCase,
+    private readonly userService : UserService,
+    @InjectRepository(Job) private readonly jobRepository: Repository<Job>,
   ) {}
 
   @Query(() => JobModel, { nullable: true })
   async getJob(@Args('id') id: string): Promise<JobModel | null> {
-    return null; 
+    const job = await this.jobRepository.findOne({ where: { id } });
+
+    if (!job) {
+      throw new NotFoundException(`Job with ID ${id} not found`);
+    }
+
+    return this.mapToModel(job);
+  }
+
+  @ResolveField((returns) => Client)
+  client(@Parent() job : JobModel) : Promise <Client>{
+    return this.userService.findDetailUserById(job.userClientId)
+  }
+
+  @ResolveField((returns) => Client)
+  applicant(@Parent() job : JobModel) : Promise <Client>{
+    return this.userService.findDetailUserById(job.userWorkerId)
   }
 
   @Query(() => [JobModel])
   async getJobs(): Promise<JobModel[]> {
-    return []; 
+    const jobs = await this.jobRepository.find();
+    return jobs.map(this.mapToModel);
   }
 
   @Mutation(() => JobModel)

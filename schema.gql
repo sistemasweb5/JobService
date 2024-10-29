@@ -2,6 +2,24 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Category {
+  clients: [Client!]!
+  id: String!
+  rol: String!
+}
+
+type Client {
+  category: Category!
+  categoryid: Category!
+  email: String!
+  id: String!
+  name: String!
+  speciality: Specialty!
+  specialty: Specialty!
+  workSchedule: WorkSchedule!
+  workschedule: WorkSchedule!
+}
+
 input CreateJobInput {
   description: String!
   jobType: String!
@@ -19,6 +37,8 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 type Job {
+  applicant: Client!
+  client: Client!
   createdAt: DateTime!
   description: String!
   id: ID!
@@ -36,6 +56,21 @@ type Mutation {
 }
 
 type Query {
+  allClients: [Client!]!
   getJob(id: String!): Job
   getJobs: [Job!]!
+  userById(id: String!): Client!
+}
+
+type Specialty {
+  client: Client!
+  id: String!
+  name: String!
+}
+
+type WorkSchedule {
+  clients: Client!
+  endTime: String!
+  id: String!
+  startTime: String!
 }
