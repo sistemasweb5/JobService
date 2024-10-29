@@ -20,6 +20,6 @@ async function bootstrap() {
 
   app.useGlobalFilters(new GraphQLErrorFilter());
 
-  await app.listen(process.env.PORT ?? 3001);
+  await app.listen(process.env.PORT ?? 3003);
 }
 bootstrap();

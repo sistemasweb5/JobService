@@ -51,14 +51,25 @@ type Job {
   userWorkerId: ID
 }
 
+type JobEntity {
+  created_at: DateTime!
+  description: String!
+  job_type: String!
+  location: String!
+  price: Float!
+  status: String!
+  user_client_id: String!
+  user_worker_id: String!
+}
+
 type Mutation {
   createJob(Job: CreateJobInput!): Job!
 }
 
 type Query {
   allClients: [Client!]!
-  getJob(id: String!): Job
-  getJobs: [Job!]!
+  getJob(id: String!): JobEntity
+  getJobs: [JobEntity!]!
   userById(id: String!): Client!
 }
 

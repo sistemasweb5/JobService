@@ -7,6 +7,11 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { JobModule } from './job.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { serviceModule } from './services/services.module';
+import { JobEntity } from './presentation/graphql/models/JobORM.entity';
+import { Client } from './services/user-management/entity/client.entity';
+import { Category } from './services/user-management/entity/category.entity';
+import { WorkSchedule } from './services/user-management/entity/workSchedule.entity';
+import { Specialty } from './services/user-management/entity/speciality.entity';
 
 @Module({
   imports: [
@@ -31,10 +36,21 @@ import { serviceModule } from './services/services.module';
       username: 'phaeton',
       password: 'ecliptic',
       database: 'helios',
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      entities: [Client, Category, WorkSchedule, Specialty],
       synchronize: true,
     }), 
-    serviceModule
+    serviceModule,
+    TypeOrmModule.forRoot({
+      name: 'jobservice',
+      type: 'postgres',
+      host: 'localhost',
+      port: 5432,
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: 'jobservice_db',
+      entities: [JobEntity],
+      synchronize: true,
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],

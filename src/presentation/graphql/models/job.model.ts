@@ -4,7 +4,7 @@ import { ObjectType, Field, Float, ID } from "@nestjs/graphql";
 export class JobModel {
   @Field(() => ID) 
   id: string;
-
+  
   @Field(() => ID) 
   userClientId: string;
 

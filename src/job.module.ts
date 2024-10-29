@@ -5,10 +5,10 @@ import { PrismaJobRepository } from "src/infrastructure/persistence/repositories
 import { JobResolver } from "src/presentation/graphql/resolvers/job.resolver";
 import { UserModule } from "./services/user-management/user.module";
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Job } from "./domain/entities/job.entity";
+import { JobEntity } from "./presentation/graphql/models/JobORM.entity";
 
 @Module({
-  imports: [PrismaModule, UserModule, TypeOrmModule.forFeature([Job])],
+  imports: [PrismaModule, UserModule, TypeOrmModule.forFeature([JobEntity])],
   providers: [
     JobResolver,
     CreateJobUseCase,
