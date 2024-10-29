@@ -2,17 +2,15 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type jobModel {
-  id: String!
-  user_client_id: String!
-  user_worker_id: String
-  job_type: String!
-  status: String!
+input CreateJobInput {
   description: String!
-  created_at: DateTime!
-  price: Float!
+  jobType: String!
   latitude: Float!
   longitude: Float!
+  price: Float!
+  status: String!
+  userClientId: String!
+  userWorkerId: String
 }
 
 """
@@ -20,21 +18,24 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type Query {
-  default: [jobModel!]!
+type Job {
+  createdAt: DateTime!
+  description: String!
+  id: ID!
+  jobType: String!
+  latitude: Float!
+  longitude: Float!
+  price: Float!
+  status: String!
+  userClientId: ID!
+  userWorkerId: ID
 }
 
 type Mutation {
-  createJob(Job: CreateJobInput!): jobModel!
+  createJob(Job: CreateJobInput!): Job!
 }
 
-input CreateJobInput {
-  user_client_id: String!
-  user_worker_id: String
-  job_type: String!
-  status: String!
-  description: String!
-  price: Float!
-  latitude: Float!
-  longitude: Float!
+type Query {
+  getJob(id: String!): Job
+  getJobs: [Job!]!
 }
